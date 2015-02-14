@@ -1,6 +1,6 @@
 #pragma once
 
-class Star;
+#include "Starfield.h"
 
 // The main class for handling game states and event loop updates
 class Game
@@ -16,11 +16,12 @@ class Game
     private:
         void Initialize();
         void EventLoop();
+        void Update();
         void Draw();
         void Cleanup();
 
     private:
         sf::RenderWindow mainWindow;
         bool isInitialized;
-        Star* star;
+        std::unique_ptr<Starfield> starfield;        
 };

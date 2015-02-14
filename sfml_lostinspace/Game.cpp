@@ -2,7 +2,6 @@
 
 #include "stdafx.h"
 #include "Game.h"
-#include "Star.h"
 
 #define FRAMERATE_LIMIT 60
 #define WINDOW_WIDTH 1024
@@ -25,8 +24,7 @@ void Game::Run()
 }
 
 void Game::Cleanup()
-{
-    delete star;
+{    
 }
 
 void Game::Initialize()
@@ -36,10 +34,7 @@ void Game::Initialize()
     mainWindow.setFramerateLimit(FRAMERATE_LIMIT);
     mainWindow.setMouseCursorVisible(false);
 
-    star = new Star();
-
-    auto windowSize = mainWindow.getSize();
-    star->position = Vector2f(windowSize.x / 2, windowSize.y / 2);
+    starfield = unique_ptr<Starfield>(new Starfield);   
 }
 
 void Game::EventLoop()
@@ -58,7 +53,7 @@ void Game::EventLoop()
         // Clear the whole window before rendering a new frame
         mainWindow.clear();
         
-        // Draw some graphical entities
+        Update();
         Draw();
 
         // End the current frame and display its contents on screen
@@ -66,15 +61,12 @@ void Game::EventLoop()
     }
 }
 
-void Game::Draw()
+void Game::Update()
 {
-    star->position.x++;
+    starfield->Update();
+}
 
-    if (star->position.x > mainWindow.getSize().x)
-    {
-        star->position.x = 0;
-    }
-    
-    Vertex vertices[] = { *star };
-    mainWindow.draw(vertices, 1, Points);
+void Game::Draw()
+{     
+    mainWindow.draw(*starfield);
 }
