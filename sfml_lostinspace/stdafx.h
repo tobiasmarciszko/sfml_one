@@ -9,9 +9,12 @@
 
 #include <stdio.h>
 #include <tchar.h>
+#include <map>
+#include <iostream>
+#include <cassert>
+#include <memory>
 
+#include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-
-
-
-// TODO: reference additional headers your program requires here
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
