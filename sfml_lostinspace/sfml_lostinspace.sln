@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfml_lostinspace", "sfml_lostinspace.vcxproj", "{EA9A5C4D-E10D-4D28-8BA3-5C816CFF24ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA9A5C4D-E10D-4D28-8BA3-5C816CFF24ED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EA9A5C4D-E10D-4D28-8BA3-5C816CFF24ED}.Debug|Win32.Build.0 = Debug|Win32
+		{EA9A5C4D-E10D-4D28-8BA3-5C816CFF24ED}.Release|Win32.ActiveCfg = Release|Win32
+		{EA9A5C4D-E10D-4D28-8BA3-5C816CFF24ED}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
