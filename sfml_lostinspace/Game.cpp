@@ -8,6 +8,7 @@
 #define WINDOW_HEIGHT 768
 #define WINDOW_BPP 32
 #define WINDOW_TITLE "Lost In Space"
+#define NUM_STARS 250
 
 using namespace sf;
 using namespace std;
@@ -34,7 +35,7 @@ void Game::Initialize()
     mainWindow.setFramerateLimit(FRAMERATE_LIMIT);
     mainWindow.setMouseCursorVisible(false);
 
-    starfield = unique_ptr<Starfield>(new Starfield);   
+    starfield = unique_ptr<Starfield>(new Starfield(NUM_STARS));   
 }
 
 void Game::EventLoop()
