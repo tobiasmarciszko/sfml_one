@@ -9,10 +9,6 @@ Starfield::Starfield(unsigned int count) :
 stars(count),
 vertices(Points, count)
 {
-    //for (unsigned int i = 0; i < count; ++i)
-    //{
-    //    stars.push_back(new Star);
-    //}
 }
 
 Starfield::~Starfield()
