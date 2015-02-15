@@ -35,7 +35,8 @@ void Game::Initialize()
     mainWindow.setFramerateLimit(FRAMERATE_LIMIT);
     mainWindow.setMouseCursorVisible(false);
 
-    starfield = unique_ptr<Starfield>(new Starfield(NUM_STARS));   
+    starfield = unique_ptr<Starfield>(new Starfield(NUM_STARS));
+    spaceship = unique_ptr<Spaceship>(new Spaceship);
 }
 
 void Game::EventLoop()
@@ -46,9 +47,14 @@ void Game::EventLoop()
         Event event;
         while (mainWindow.pollEvent(event))
         {
-            // Request for closing the window
-            if (event.type == Event::Closed)
+            switch (event.type)
+            {
+            case Event::Closed:
                 mainWindow.close();
+                break;
+            default: 
+                break;
+            }
         }
         
         // Clear the whole window before rendering a new frame
@@ -64,10 +70,12 @@ void Game::EventLoop()
 
 void Game::Update()
 {
+    spaceship->Update(clock.restart().asSeconds());
     starfield->Update();
 }
 
 void Game::Draw()
-{     
+{
+    mainWindow.draw(*spaceship);
     mainWindow.draw(*starfield);
 }

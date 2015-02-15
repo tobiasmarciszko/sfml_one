@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Starfield.h"
+#include "Spaceship.h"
 
 // The main class for handling game states and event loop updates
 class Game
@@ -23,5 +24,7 @@ class Game
     private:
         sf::RenderWindow mainWindow;
         bool isInitialized;
-        std::unique_ptr<Starfield> starfield;        
+        std::unique_ptr<Starfield> starfield;
+        std::unique_ptr<Spaceship> spaceship;
+        sf::Clock clock;
 };

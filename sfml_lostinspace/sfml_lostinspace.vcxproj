@@ -83,6 +83,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Spaceship.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="Starfield.h" />
     <ClInclude Include="stdafx.h" />
@@ -91,12 +92,16 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="sfml_lostinspace.cpp" />
+    <ClCompile Include="Spaceship.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="Starfield.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="viper.gif" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
