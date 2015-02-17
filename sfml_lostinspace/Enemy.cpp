@@ -23,7 +23,8 @@ void Enemy::Update(float elapsedTime)
 {
     velocity.x -= 300;
     velocity.x *= elapsedTime;
-    velocity.y += sin(velocity.x * 2000) / 100;
+    velocity.y += sin(velocity.x) / 100;
+    velocity.y *= elapsedTime;
     move(velocity);
     rotate(-1);
 }

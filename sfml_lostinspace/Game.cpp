@@ -35,6 +35,17 @@ void Game::Initialize()
     mainWindow.setFramerateLimit(FRAMERATE_LIMIT);
     mainWindow.setMouseCursorVisible(false);
 
+    
+    font.loadFromFile("rock.ttf");
+    scoreText.setFont(font);
+    scoreText.setCharacterSize(36); // in pixels, not points!
+    scoreText.setColor(sf::Color::White);
+    scoreText.setPosition(0, 0);
+
+    gameOverText.setFont(font);
+    gameOverText.setCharacterSize(36); // in pixels, not points!
+    gameOverText.setColor(sf::Color::White);
+    
     starfield = std::unique_ptr<Starfield>(new Starfield(NUM_STARS));
     spaceship = std::unique_ptr<Spaceship>(new Spaceship);
 
@@ -72,17 +83,11 @@ void Game::EventLoop()
         
         if (isGameOver)            
         {
-            sf::Text text;
-            sf::Font font;
-            font.loadFromFile("rock.ttf");
-            text.setFont(font);
-            text.setString("Game Over - Score: " + std::to_string(score) + " press Escape to restart.");
-            text.setCharacterSize(36); // in pixels, not points!
-            text.setColor(sf::Color::White);
-            text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
-            text.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+            gameOverText.setString("Game Over - Score: " + std::to_string(score) + " press Escape to restart.");
+            gameOverText.setOrigin(gameOverText.getLocalBounds().width / 2, gameOverText.getLocalBounds().height / 2);
+            gameOverText.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
             mainWindow.clear(sf::Color::Black);
-            mainWindow.draw(text);
+            mainWindow.draw(gameOverText);
         }
         else
         {
@@ -127,15 +132,8 @@ void Game::Draw()
 
 void Game::DrawScore()
 {
-    sf::Text text;
-    sf::Font font;
-    font.loadFromFile("rock.ttf");
-    text.setFont(font);
-    text.setString("Score: " + std::to_string(score));
-    text.setCharacterSize(36); // in pixels, not points!
-    text.setColor(sf::Color::White);
-    text.setPosition(0, 0);
-    mainWindow.draw(text);
+    scoreText.setString("Score: " + std::to_string(score));
+    mainWindow.draw(scoreText);
 }
 
 // Lightweight object management

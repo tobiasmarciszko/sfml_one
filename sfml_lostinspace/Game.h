@@ -39,6 +39,9 @@ class Game
         bool isInitialized;
         bool isGameOver;
         unsigned int score;
+        sf::Text gameOverText;
+        sf::Text scoreText;
+        sf::Font font;
 
         // Game objects and collections of objects
         std::unique_ptr<Starfield> starfield;
