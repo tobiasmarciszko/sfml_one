@@ -1,14 +1,12 @@
 #include "stdafx.h"
 #include "Star.h"
 
-using namespace sf;
-
 Star::Star()
 {
     position.x = (float)(rand() % 1024 + 1);
     position.y = (float)(rand() % 768  + 1);
 
-    Color colors[] = { Color(255, 255, 255, 100), Color(255, 255, 255, 200), Color(255, 255, 255, 255), };
+    sf::Color colors[] = { sf::Color(255, 255, 255, 100), sf::Color(255, 255, 255, 200), sf::Color(255, 255, 255, 255), };
     int index = rand() % 3;
     color = colors[index];
     starType = (StarType)index;

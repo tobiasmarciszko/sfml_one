@@ -2,12 +2,9 @@
 #include "Starfield.h"
 #include "Star.h"
 
-using namespace sf;
-using namespace std;
-
 Starfield::Starfield(unsigned int count) : 
 stars(count),
-vertices(Points, count)
+vertices(sf::Points, count)
 {
 }
 
