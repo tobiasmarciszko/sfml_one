@@ -3,7 +3,7 @@
 #include "Missile.h"
 #include "Game.h"
 
-#define MOVE_VELOCITY 500
+#define MOVE_VELOCITY 400
 
 Spaceship::Spaceship() : 
 velocity(0,0)
@@ -40,6 +40,19 @@ void Spaceship::Update(float elapsedTime)
 
     move(velocity);
 
+    float x = getPosition().x;
+    float y = getPosition().y;
+    if (x < 0)
+        x = 0;
+    if (x > 1024)
+        x = 1024;
+    if (y < 0)
+        y = 0;
+    if (y > 768)
+        y = 768;
+
+    setPosition(x, y);
+
     if (missile)
         missile->Update(elapsedTime);
 }
@@ -47,7 +60,7 @@ void Spaceship::Update(float elapsedTime)
 void Spaceship::FireMissile()
 {
     // Throttle fire speed
-    if (clock.getElapsedTime().asMilliseconds() > 100)
+    if (clock.getElapsedTime().asMilliseconds() > 200)
         clock.restart();
     else
         return;

@@ -37,6 +37,9 @@ void Game::Initialize()
 
     starfield = std::unique_ptr<Starfield>(new Starfield(NUM_STARS));
     spaceship = std::unique_ptr<Spaceship>(new Spaceship);
+
+    clock.restart();
+    enemyClock.restart();
 }
 
 void Game::EventLoop()
@@ -52,17 +55,43 @@ void Game::EventLoop()
             case sf::Event::Closed:
                 mainWindow.close();
                 break;
+            case sf::Event::KeyPressed:
+                if (event.key.code == sf::Keyboard::Escape)
+                {
+                    score = 0;
+                    missiles.clear();
+                    enemies.clear();
+                    spaceship->setPosition(0, WINDOW_HEIGHT / 2);
+                    isGameOver = false;
+                }
+                    break;
             default: 
                 break;
             }
         }
         
-        // Clear the whole window before rendering a new frame
-        mainWindow.clear();
+        if (isGameOver)            
+        {
+            sf::Text text;
+            sf::Font font;
+            font.loadFromFile("rock.ttf");
+            text.setFont(font);
+            text.setString("Game Over - Score: " + std::to_string(score) + " press Escape to restart.");
+            text.setCharacterSize(36); // in pixels, not points!
+            text.setColor(sf::Color::White);
+            text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
+            text.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+            mainWindow.clear(sf::Color::Black);
+            mainWindow.draw(text);
+        }
+        else
+        {
+            // Clear the whole window before rendering a new frame
+            mainWindow.clear();
+            Update();
+            Draw();
+        }
         
-        Update();
-        Draw();
-
         // End the current frame and display its contents on screen
         mainWindow.display();
     }
@@ -74,10 +103,14 @@ void Game::Update()
     spaceship->Update(elapsedTime);
     starfield->Update();
     UpdateMissiles(elapsedTime);
+    UpdateEnemies(elapsedTime);
+    DetectCollisions();
+    DetectSpaceshipCollision();
 }
 
 void Game::Draw()
 {
+    DrawScore();
     mainWindow.draw(*spaceship);
     mainWindow.draw(*starfield);
 
@@ -85,6 +118,24 @@ void Game::Draw()
     {        
         mainWindow.draw(*item.second);
     }
+
+    for each (const auto& item in enemies)
+    {
+        mainWindow.draw(*item.second);
+    }
+}
+
+void Game::DrawScore()
+{
+    sf::Text text;
+    sf::Font font;
+    font.loadFromFile("rock.ttf");
+    text.setFont(font);
+    text.setString("Score: " + std::to_string(score));
+    text.setCharacterSize(36); // in pixels, not points!
+    text.setColor(sf::Color::White);
+    text.setPosition(0, 0);
+    mainWindow.draw(text);
 }
 
 // Lightweight object management
@@ -113,5 +164,83 @@ void Game::UpdateMissiles(float elapsedTime)
         {
             it++;
         }
+    }
+}
+
+void Game::AddEnemy(std::shared_ptr<Enemy> enemy)
+{
+    enemies.insert(std::pair<unsigned int, std::shared_ptr<Enemy>>(enemy->Id(), enemy));
+}
+
+void Game::RemoveEnemy(unsigned int id)
+{
+    std::map<unsigned int, std::shared_ptr<Enemy>>::iterator it;
+    it = enemies.find(id);
+    enemies.erase(it);
+}
+
+void Game::UpdateEnemies(float elapsedTime)
+{
+    if (enemyClock.getElapsedTime().asSeconds() > 0.5)
+    {
+        enemyClock.restart();
+        AddEnemy(std::shared_ptr<Enemy>(new Enemy));
+    }
+        
+    for (auto it = enemies.cbegin(); it != enemies.cend();)
+    {
+        it->second->Update(elapsedTime);
+        if (it->second->getPosition().x < 0)
+        {
+            enemies.erase(it++);
+        }
+        else
+        {
+            it++;
+        }
+    }
+}
+
+void Game::DetectCollisions()
+{
+    // only find one hit (missile and enemy)
+    // if hit, remove objects from collections and exit immediately
+    for (auto it = missiles.cbegin(); it != missiles.cend();)
+    {
+        auto missileBounds = it->second->getGlobalBounds();
+
+        for (auto eit = enemies.cbegin(); eit != enemies.cend();)
+        {
+            auto enemyBounds = eit->second->getGlobalBounds();
+
+            if (missileBounds.intersects(enemyBounds))
+            {
+                std::cout << "HIT!\n";
+                  score++;
+                missiles.erase(it++);
+                enemies.erase(eit++);
+                return;
+            }
+            eit++;
+        }
+        it++;
+    }
+}
+
+void Game::DetectSpaceshipCollision()
+{
+    // If the spaceship is hit, GAME OVER MAN, GAME OVER!
+    for (auto it = enemies.cbegin(); it != enemies.cend();)
+    {
+        auto enemyBounds = it->second->getGlobalBounds();
+        auto spaceshipBounds = spaceship->getGlobalBounds();
+
+            if (spaceshipBounds.intersects(enemyBounds))
+            {
+                std::cout << "GAME OVER!\n";
+                isGameOver = true;
+                return;
+            }
+        it++;
     }
 }

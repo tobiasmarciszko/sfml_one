@@ -82,6 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="Spaceship.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="sfml_lostinspace.cpp" />
@@ -104,6 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="viper.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="rock.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
