@@ -119,12 +119,12 @@ void Game::Draw()
     mainWindow.draw(*spaceship);
     mainWindow.draw(*starfield);
 
-    for each (const auto& item in missiles)
+    for (const auto& item : missiles)
     {        
         mainWindow.draw(*item.second);
     }
 
-    for each (const auto& item in enemies)
+    for (const auto& item : enemies)
     {
         mainWindow.draw(*item.second);
     }
@@ -136,7 +136,6 @@ void Game::DrawScore()
     mainWindow.draw(scoreText);
 }
 
-// Lightweight object management
 void Game::AddMissile(std::shared_ptr<Missile> missile)
 {
     missiles.insert(std::pair<unsigned int, std::shared_ptr<Missile>>(missile->Id(), missile));
@@ -151,7 +150,7 @@ void Game::RemoveMissile(unsigned int id)
 
 void Game::UpdateMissiles(float elapsedTime)
 {
-    for (auto it = missiles.cbegin(); it != missiles.cend();)
+    for (auto& it = missiles.cbegin(); it != missiles.cend();)
     {
         it->second->Update(elapsedTime);
         if (it->second->getPosition().x > WINDOW_WIDTH)
@@ -184,8 +183,8 @@ void Game::UpdateEnemies(float elapsedTime)
         enemyClock.restart();
         AddEnemy(std::shared_ptr<Enemy>(new Enemy));
     }
-        
-    for (auto it = enemies.cbegin(); it != enemies.cend();)
+
+    for (auto& it = enemies.cbegin(); it != enemies.cend();)
     {
         it->second->Update(elapsedTime);
         if (it->second->getPosition().x < 0)
@@ -203,42 +202,38 @@ void Game::DetectCollisions()
 {
     // only find one hit (missile and enemy)
     // if hit, remove objects from collections and exit immediately
-    for (auto it = missiles.cbegin(); it != missiles.cend();)
+    for (const auto& kv : missiles)
     {
-        auto missileBounds = it->second->getGlobalBounds();
+        auto missileBounds = kv.second->getGlobalBounds();
 
-        for (auto eit = enemies.cbegin(); eit != enemies.cend();)
+        for (const auto& kv : enemies)
         {
-            auto enemyBounds = eit->second->getGlobalBounds();
+            auto enemyBounds = kv.second->getGlobalBounds();
 
             if (missileBounds.intersects(enemyBounds))
             {
-                std::cout << "HIT!\n";
-                  score++;
-                missiles.erase(it++);
-                enemies.erase(eit++);
+                score++;
+                missiles.erase(kv.first);
+                enemies.erase(kv.first);
                 return;
             }
-            eit++;
         }
-        it++;
     }
 }
 
 void Game::DetectSpaceshipCollision()
 {
     // If the spaceship is hit, GAME OVER MAN, GAME OVER!
-    for (auto it = enemies.cbegin(); it != enemies.cend();)
+    for (const auto& kv : enemies)
     {
-        auto enemyBounds = it->second->getGlobalBounds();
+        auto enemyBounds = kv.second->getGlobalBounds();
         auto spaceshipBounds = spaceship->getGlobalBounds();
 
-            if (spaceshipBounds.intersects(enemyBounds))
-            {
-                std::cout << "GAME OVER!\n";
-                isGameOver = true;
-                return;
-            }
-        it++;
+        if (spaceshipBounds.intersects(enemyBounds))
+        {
+            //std::cout << "GAME OVER!\n";
+            isGameOver = true;
+            return;
+        }
     }
 }

@@ -9,14 +9,14 @@ CircleShape(4),
 velocity(velocity.x, 0),
 id(identifier++)
 {
-    std::cout << "Creating missile id: " << Id() << "\n";
+    //std::cout << "Creating missile id: " << Id() << "\n";
     setPosition(x + 10, y);
     setFillColor(sf::Color(255, 255, 255, 200));
 }
 
 Missile::~Missile()
 {
-    std::cout << "Destroying missile id: " << Id() << "\n";
+    //std::cout << "Destroying missile id: " << Id() << "\n";
 }
 
 void Missile::Update(float elapsedTime)

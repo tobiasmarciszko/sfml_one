@@ -109,6 +109,7 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
     </Image>
+    <Image Include="viper.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="rock.ttf">

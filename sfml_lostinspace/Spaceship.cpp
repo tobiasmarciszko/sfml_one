@@ -8,8 +8,7 @@
 Spaceship::Spaceship() : 
 velocity(0,0)
 {
-    texture.loadFromFile("viper.gif");
-    texture.setSmooth(true);
+    texture.loadFromFile("viper.png");
     setTexture(texture);
     setPosition(300, 300);
 }

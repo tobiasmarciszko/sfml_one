@@ -70,6 +70,9 @@
     <Image Include="viper.gif">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="viper.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="rock.ttf" />
